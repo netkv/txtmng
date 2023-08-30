@@ -1,0 +1,17 @@
+#!/bin/bash
+cd ~ || exit 1
+test -f './.txtmng-rules' || exit 1
+declare -A rules
+source ./.txtmng-rules
+
+for file in "${files[@]}"; do
+	# if file doesn't exist, something is very wrong and data could be harmed
+	test -f "${file}.template" || exit 1
+	echo "${file}"
+
+	expr=''
+	for rule in "${!rules[@]}"; do
+		expr+="s/${rule}/${rules[${rule}]}/g;"
+	done
+	sed "${expr}" "${file}.template" > "${file}"
+done

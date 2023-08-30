@@ -10,7 +10,7 @@ The main benefit of txtmng is ability to configure equivalent stuff (like colors
 
 Terminal colors
 
-#### alacritty.yml
+#### alacritty.yml.template
 
 ```yaml
 colors:
@@ -39,27 +39,27 @@ colors:
     white:   '#!?bright-white'
 ```
 
-#### XTerm
+#### XTerm.template
 
 ```
-*background: #000000
-*foreground: #cccccc
-*color0:  #101010
-*color8:  #222222
-*color1:  #bb2040
-*color9:  #ff4066
-*color2:  #338066
-*color10: #55aa80
-*color3:  #cc8844
-*color11: #ffcc88
-*color4:  #6655aa
-*color12: #8070dd
-*color5:  #bb55bb
-*color13: #dd77dd
-*color6:  #447099
-*color14: #66aaaa
-*color7:  #808080
-*color15: #ffffff
+*background: #!?background
+*foreground: #!?foreground
+*color0:  #!?black
+*color8:  #!?bright-black
+*color1:  #!?red
+*color9:  #!?bright-red
+*color2:  #!?green
+*color10: #!?bright-green
+*color3:  #!?yellow
+*color11: #!?bright-yellow
+*color4:  #!?blue
+*color12: #!?bright-blue
+*color5:  #!?magenta
+*color13: #!?bright-magenta
+*color6:  #!?cyan
+*color14: #!?bright-cyan
+*color7:  #!?white
+*color15: #!?bright-white
 ```
 
 #### .txtmng-rules

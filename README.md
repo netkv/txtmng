@@ -2,7 +2,7 @@
 
 Automatically manage variables in your configs and more.
 
-txtmng takes `file`, checks if `file`.template exists, does sed replace operations on the template it and saves result into `file`
+txtmng takes `file`, checks if `file.template` exists, does sed replace operations on the template it and saves result into `file`
 
 The main benefit of txtmng is ability to configure equivalent stuff (like colors) in different programs in same place. Making for example changing themes much easier.
 

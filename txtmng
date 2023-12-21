@@ -1,13 +1,69 @@
 #!/bin/bash
+IFS=
 cd ~ || exit 1
-test -f './.txtmng-rules' || exit 1
-declare -A rules
-source ./.txtmng-rules
+test -f './.txtmng' || exit 1
+declare -A rules insert
+
+function insert {
+	read -r -d '' "insert[${1}]"
+}
+
+# color changing function helper
+function brighten {
+	local -i c
+	result="$(
+		c=$((16#${1:0:2} + 16#${2:0:2}))
+		((c>255)) && printf 'ff\n' || printf "%02x\n" $c
+	)$(
+		c=$((16#${1:2:2} + 16#${2:2:2}))
+		((c>255)) && printf 'ff\n' || printf "%02x\n" $c
+	)$(
+		c=$((16#${1:4:2} + 16#${2:4:2}))
+		((c>255)) && printf 'ff\n' || printf "%02x\n" $c
+	)"
+	echo "$result"
+}
+function darken {
+	local -i c
+	result="$(
+		c=$((16#${1:0:2} - 16#${2:0:2}))
+		((c<0)) && printf '00\n' || printf "%02x\n" $c
+	)$(
+		c=$((16#${1:2:2} - 16#${2:2:2}))
+		((c<0)) && printf '00\n' || printf "%02x\n" $c
+	)$(
+		c=$((16#${1:4:2} - 16#${2:4:2}))
+		((c<0)) && printf '00\n' || printf "%02x\n" $c
+	)"
+	echo "$result"
+}
+function average {
+	local -i c
+	result="$(
+		c=$(((16#${1:0:2} + 16#${2:0:2}) / 2))
+		printf "%02x\n" $c
+	)$(
+		c=$(((16#${1:2:2} + 16#${2:2:2}) / 2))
+		printf "%02x\n" $c
+	)$(
+		c=$(((16#${1:4:2} + 16#${2:4:2}) / 2))
+	    printf "%02x\n" $c
+	)"
+	echo "$result"
+}
+
+source ./.txtmng
+
+for file in "${!insert[@]}"; do
+	echo "Insert: ${file}"
+	printf '%s' "${insert[${file}]}" > "${file}"
+done
+
 
 for file in "${files[@]}"; do
 	# if file doesn't exist, something is very wrong and data could be harmed
 	test -f "${file}.template" || exit 1
-	echo "${file}"
+	echo "Edit: ${file}"
 
 	expr=''
 	for rule in "${!rules[@]}"; do

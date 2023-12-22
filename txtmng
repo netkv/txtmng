@@ -52,6 +52,17 @@ function average {
 	echo "$result"
 }
 
+function generate-bright {
+	lvl="$1"
+	prefix="$2"
+	new_prefix="$3"
+	shift 3
+	for color in "$@"; do
+		rules+=(["${new_prefix}${color}"]="$(brighten "${rules["${prefix}${color}"]}" "$lvl")")
+	done
+}
+
+
 source ./.txtmng
 
 for file in "${!insert[@]}"; do

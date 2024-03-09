@@ -5,6 +5,16 @@ test -f './.txtmng' || exit 1
 declare -a files
 declare -A rules insert templates config
 
+## insert-array
+# Insert array values into different array
+function insert-array {
+	local -n source="$1"
+	local -n target="$2"
+	for idx in "${!source[@]}"; {
+		target["${idx}"]="${source[${idx}]}"
+	}
+}
+
 function insert {
 	read -r -d '' "insert[${1}]"
 }

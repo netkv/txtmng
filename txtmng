@@ -91,15 +91,28 @@ done
 
 
 for file in "${files[@]}"; do
-	# if file doesn't exist, something is very wrong and data could be harmed
-	test -f "${file}.template" || exit 1
-	echo "Edit: ${file}"
+
+	if test -f "${file}.template"; then
+		template_source="${file}.template"
+	elif test -f "${file%/*}/template.${file##*/}"; then
+		template_source="${file%/*}/template.${file##*/}"
+	else
+		printf '\e[1;31m%s\n' "1: Error: template file is missing ( ${file}.template / ${file%/*}/template.${file##*/} )"
+		exit 1 # if file doesn't exist, something is very wrong and data could be harmed
+	fi
+	
+	if [ ! -f "${template_source}" ]; then # double check to be safe
+		printf '\e[1;91m%s\n' "2: Error: template file is missing ( ${template_source} )"
+		exit 1 # if file doesn't exist, something is very wrong and data could be harmed
+	fi
+	
+	printf 'Edit: \e[4m%s\e[0m --> \e[1;4m%s\e[0m\n' "${template_source}" "${file}"
 
 	expr=''
 	for rule in "${!rules[@]}"; do
 		expr+="s/${rule}/${rules[${rule}]}/g;"
 	done
-	sed "${expr}" "${file}.template" > "${file}"
+	sed "${expr}" "${template_source}" > "${file}"
 done
 
 [ -z "${config[template-dir]}" ] && exit 

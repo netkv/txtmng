@@ -62,7 +62,7 @@ colors:
 *color15: #!?bright-white
 ```
 
-#### .txtmng-rules
+#### .txtmng.d/rules
 
 ```bash
 # txmng rule configuration

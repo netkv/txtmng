@@ -77,15 +77,26 @@ function to-rgb {
 
 ## prepare enviroment for sourcing config
 IFS=
-test -f './.txtmng' || cd ~ || exit 1
-test -f './.txtmng' || exit 1
-printf '\e[1;4mUsing file:\e[0m \e[1m%s\e[m\n' "${PWD}/.txtmng"
+
+declare rulefile
+if test -f "./.txtmng"; then
+	rulefile="./.txtmng"
+elif test -f "${HOME}/.txtmng"; then
+	rulefile="${HOME}/.txtmng"
+	cd ~ || exit 1
+elif test -f "${HOME}/.txtmng.d/rules"; then
+	rulefile="${HOME}/.txtmng.d/rules"
+	cd ~ || exit 1
+else
+	exit 1
+fi
+printf '\e[1;4mUsing file:\e[0m \e[1m%s\e[m\n' "${rulefile}"
 
 declare -a files
 declare -A rules insert templates config
 
 ## source it
-source ./.txtmng
+source "${rulefile}"
 
 ## integrated templates
 for file in "${!insert[@]}"; do

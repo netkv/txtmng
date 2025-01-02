@@ -104,6 +104,14 @@ for file in "${!insert[@]}"; do
 	printf '%s' "${insert[${file}]}" > "${file}"
 done
 
+declare -A esc=()
+## escaping rules
+printf '\e[1mEscaping rules...\e[0m'
+for rule in "${!rules[@]}"; do
+	esc+=(["${rule}"]="$(printf '%s' "${rules[${rule}]}" | sed 's/[\/&]/\\&/g')")
+done
+printf '\e[1m Done!\e[0m\n'
+
 ## in place templates
 for file in "${files[@]}"; do
 	if test -f "${file}.template"; then
@@ -123,8 +131,8 @@ for file in "${files[@]}"; do
 	printf 'Edit: \e[4m%s\e[0m \e[2m-->\e[0m \e[1;4m%s\e[0m\n' "${template_source}" "${file}"
 
 	expr=''
-	for rule in "${!rules[@]}"; do
-		expr+="s/${rule}/${rules[${rule}]}/g;"
+	for rule in "${!esc[@]}"; do
+		expr+="s/${rule}/${esc[${rule}]}/g;"
 	done
 	sed "${expr}" "${template_source}" > "${file}"
 done
@@ -139,8 +147,8 @@ for file in "${!templates[@]}"; do
 	printf "Template: \e[0;4m%s\e[0m \e[2m-->\e[0m \e[1;4m%s\e[0m\n" "${file}" "${templates[${file}]}"
 
 	expr=''
-	for rule in "${!rules[@]}"; do
-		expr+="s/${rule}/${rules[${rule}]}/g;"
+	for rule in "${!esc[@]}"; do
+		expr+="s/${rule}/${esc[${rule}]}/g;"
 	done
 	sed "${expr}" "${config[template-dir]}/${file}" > "${templates[${file}]}"
 done

@@ -2,7 +2,7 @@
 
 Automatically manage variables in your configs and more.
 
-txtmng takes `file`, checks if `file.template` exists, does sed replace operations on the template it and saves result into `file`
+txtmng takes `file`, checks if template for it exists exists, does sed replace operations based on specified rules on the template it and saves result into `file`
 
 The main benefit of txtmng is ability to configure equivalent stuff (like colors) in different programs in same place. Making for example changing themes much easier.
 
@@ -88,7 +88,7 @@ colors:
     white:   '#!?bright-white'
 ```
 
-#### XTerm.template
+#### ~/.txtmng.d/templates/XTerm-colors
 
 ```
 *background: #!?background
@@ -119,9 +119,13 @@ colors:
 # to which files apply substitutions
 # (we can assume being in homedir since ~ doesnt work here)
 
+# take template from same dir as target
 files=(
-	.config/alacritty/alacritty.yml
-	XTerm
+	.config/alacritty/alacritty.yml # template is alacritty.yml.template
+)
+# or from teplate dir
+templates=(
+	XTerm-colors="${HOME}/XTerm"
 )
 
 # what to replace

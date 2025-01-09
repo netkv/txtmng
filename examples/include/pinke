@@ -1,0 +1,45 @@
+#!/bin/bash
+function pinke {
+	declare -A pink
+	pink=(
+#		[!?background]='fdf6e3'
+		[!?background]='ffe0e0'
+		[!?foreground]='4f4055'
+		[!?black]='073642'   [!?bright-black]='275662'
+		[!?red]='ff4066'     [!?bright-red]='ff80a0'
+		[!?green]='338066'   [!?bright-green]='55aa80'
+		[!?yellow]='dd9955'  [!?bright-yellow]='ffcc88'
+		[!?blue]='8075c0'    [!?bright-blue]='a095ff'
+		[!?magenta]='e044b0' [!?bright-magenta]='ee77dd'
+		[!?cyan]='2090c0'    [!?bright-cyan]='40a0ff'
+		[!?white]='b08080'   [!?bright-white]='fff0f0'
+
+	)
+	pink+=(
+		[!?accent]="${pink[!?bright-red]}"
+		[!?accentfg]="${pink[!?background]}"
+		[!?selected]="${pink[!?white]}"
+		[!?hover]="${pink[!?white]}"
+		[!?emacs-theme]='solarized-light'
+		[!?focused]="${pink[!?white]}7f"
+		[!?unfocused]="${pink[!?bright-black]}7f"
+		[!?alt-bg]="${pink[!?bright-white]}"
+
+		[!?element-bg]="${pink[!?background]}"
+		[!?element-ac-bg]="${pink[!?background]}"
+		[!?element-fg]="${pink[!?foreground]}"
+		
+		[!?inner]="${pink[!?yellow]}"
+		[!?highlight]="$(brighten "${pink[!?bright-cyan]}" 202020)"
+		[!?border]="${pink[!?bright-blue]}"
+		[!?shadow]="${pink[!?bright-yellow]}"
+
+		[!?inactive-inner]="${pink[!?white]}"
+		[!?inactive-highlight]="$(brighten "${pink[!?bright-cyan]}" 202020)"
+		[!?inactive-border]="${pink[!?bright-yellow]}"
+		[!?inactive-shadow]="${pink[!?black]}"
+		[!?comment]="${pink[!?bright-green]}"
+	)
+	
+	insert-array pink rules
+}

@@ -1,0 +1,113 @@
+#!/bin/bash
+# txmng rule configuration
+
+# to which files apply substitutions
+
+config=(
+	[template-dir]="$HOME/.txtmng.d/templates"
+	[bin-dir]="$HOME/bin"
+)
+
+files=()
+
+templates=(
+	[qt-theme.conf]="${HOME}/.config/qt6ct/colors/ultimet.conf"
+	[alacritty.toml]="${HOME}/.config/alacritty/alacritty.toml"
+	[gtk.css]="${HOME}/garbáž/Solarized/gtk-4.0/gtk.css"
+)
+
+# what to replace
+# it's recomended to have some sort of prefix to avoid replacing words which
+# should not have been replaced.
+
+#pseudo solarized
+
+include=(
+	solarized
+	pinke
+	bloat
+	swayfx
+)
+include
+
+
+case "$1" in
+	'bloat') bloatl;;
+	'light') solarized light;;
+	'skies') skies;;
+	'pink') pinke;;
+	*) solarized dark;;
+esac
+
+rules+=(
+	[!?bad]="${rules[!?bright-red]}"
+	[!?alacritty:opacity]='1'
+
+	[!?css-in]="
+background: #${rules[!?alt-bg]};
+border-right: 1px solid #${rules[!?inactive-border]};
+border-left: 1px solid #${rules[!?inactive-border]};
+border-bottom: 1px solid  #${rules[!?inactive-highlight]};
+border-top: 1px solid #${rules[!?inactive-shadow]};
+outline: 1px solid #${rules[!?background]};
+box-shadow: inset 0 0 0 1px #${rules[!?inactive-inner]};
+"
+	[!?css-border]="
+background: #${rules[!?element-bg]};
+border-right: 1px solid #${rules[!?inactive-border]};
+border-left: 1px solid #${rules[!?inactive-border]};
+border-bottom: 1px solid  #${rules[!?inactive-shadow]};
+border-top: 1px solid #${rules[!?inactive-highlight]};
+outline: 1px solid #${rules[!?background]};
+box-shadow: inset 0 0 0 1px #${rules[!?inactive-inner]};
+"
+	[!?css-border-active]="
+background: #${rules[!?element-bg]};
+border-right: 1px solid #${rules[!?border]};
+border-left: 1px solid #${rules[!?border]};
+border-bottom: 1px solid #${rules[!?shadow]};
+border-top: 1px solid #${rules[!?highlight]};
+outline: 0px solid;
+box-shadow: inset 0 0 0 1px #${rules[!?inner]};
+"
+	[!?ewwbg]="$(to-rgb "${rules[!?background]}" 0.87)"
+	[!?yambar-spacer]='- label: { content: { string: { text: "┊" } } }'
+
+	[!?mode]='Fill'
+	
+	[!?font]='cozette'
+)
+
+
+#generate-bright 333333 !? !?bright- black red green yellow blue magenta cyan white
+
+###########################
+#
+#
+###########################
+
+insert XTerm <<EOF
+*background: #${rules[!?background]}
+*foreground: #${rules[!?foreground]}
+*color0:  #${rules[!?black]}
+*color8:  #${rules[!?bright-black]}
+*color1:  #${rules[!?red]}
+*color9:  #${rules[!?bright-red]}
+*color2:  #${rules[!?green]}
+*color10: #${rules[!?bright-green]}
+*color3:  #${rules[!?yellow]}
+*color11: #${rules[!?bright-yellow]}
+*color4:  #${rules[!?blue]}
+*color12: #${rules[!?bright-blue]}
+*color5:  #${rules[!?magenta]}
+*color13: #${rules[!?bright-magenta]}
+*color6:  #${rules[!?cyan]}
+*color14: #${rules[!?bright-cyan]}
+*color7:  #${rules[!?white]}
+*color15: #${rules[!?bright-white]}
+EOF
+
+insert bin/wm/resources <<EOF
+focused=${rules[!?white]}
+unfocused=${rules[!?background]}
+EOF

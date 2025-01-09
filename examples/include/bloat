@@ -1,0 +1,48 @@
+#!/bin/bash
+function bloatl {
+	declare -A bloatl
+	bloatl=(
+		[!?foreground]='909070'
+		[!?background]='000000'
+		[!?black]='101010'   [!?bright-black]='222222'
+		[!?red]='bb2040'     [!?bright-red]='ff4066'
+		[!?green]='338066'   [!?bright-green]='55aa80'
+		[!?yellow]='dd9955'  [!?bright-yellow]='ffcc88'
+		[!?blue]='5040b0'    [!?bright-blue]='6655ee'
+		[!?magenta]='e044b0' [!?bright-magenta]='ee77dd'
+		[!?cyan]='227099'    [!?bright-cyan]='22aaaa'
+		[!?white]='808080'   [!?bright-white]='ffffff'
+	)
+	bloatl+=(
+		[!?accent]="${bloatl[!?red]}"
+		[!?accentfg]="${bloatl[!?background]}"
+		[!?selected]="${bloatl[!?white]}"
+		[!?hover]="${bloatl[!?black]}"
+		[!?comment]="${bloatl[!?white]}"
+		# [!?focused]="${bloatl[!?red]}ff"
+		# [!?unfocused]="${bloatl[!?bright-red]}80"
+		
+		[!?focused]="${bloatl[!?white]}7f"
+		[!?unfocused]="${bloatl[!?background]}7f"
+		
+		[!?emacs-theme]='bloat'
+	)
+	insert-array bloatl rules
+	rules+=(
+		[!?alt-bg]="${rules[!?black]}"
+
+		[!?element-bg]="${rules[!?background]}"
+		[!?element-ac-bg]="${rules[!?background]}"
+		[!?element-fg]="${rules[!?foreground]}"
+		
+		[!?inner]="${rules[!?black]}"
+		[!?inactive-inner]="${rules[!?black]}"
+
+		[!?highlight]="${rules[!?bright-white]}"
+		[!?border]="${rules[!?white]}"
+		[!?shadow]="$(darken "${rules[!?white]}" 404040)"
+		[!?inactive-highlight]="${rules[!?white]}"
+		[!?inactive-border]="$(darken "${rules[!?bright-black]}" 000000)"
+		[!?inactive-shadow]="$(darken "${rules[!?background]}" 0a0a0a)"
+	)
+}

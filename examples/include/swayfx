@@ -1,0 +1,23 @@
+#!/bin/bash
+rules+=(
+	[!?swayfx]='
+### Appearance
+# window corner radius in px
+#corner_radius 0
+
+# Window background blur
+blur on
+blur_xray off
+blur_passes 2
+blur_radius 5
+
+corner_radius 0
+
+shadows on
+shadows_on_csd on
+shadow_blur_radius 4
+shadow_color #000000ff
+layer_effects "panel" blur enable; shadows enable; corner_radius 0
+#layer_effects "panel" blur enable
+'
+)

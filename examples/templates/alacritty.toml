@@ -1,0 +1,26 @@
+[colors.bright]
+black = "#!?bright-black"
+blue = "#!?bright-blue"
+cyan = "#!?bright-cyan"
+green = "#!?bright-green"
+magenta = "#!?bright-magenta"
+red = "#!?bright-red"
+white = "#!?bright-white"
+yellow = "#!?bright-yellow"
+
+[colors.normal]
+black = "#!?black"
+blue = "#!?blue"
+cyan = "#!?cyan"
+green = "#!?green"
+magenta = "#!?magenta"
+red = "#!?red"
+white = "#!?white"
+yellow = "#!?yellow"
+
+[colors.primary]
+background = "#!?background"
+foreground = "#!?foreground"
+
+[font.normal]
+family = "!?font"

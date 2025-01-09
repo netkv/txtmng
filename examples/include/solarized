@@ -1,0 +1,86 @@
+#!/bin/bash
+function solarized {
+	declare -A solarized_dark
+	solarized_dark=(
+		[!?foreground]='839496'
+		[!?background]='002b36'
+		[!?black]='073642'   [!?bright-black]='184956' 
+		[!?red]='dc322f'     [!?bright-red]='cb4b16'
+		[!?green]='859900'   [!?bright-green]='586e75'
+		[!?yellow]='b58900'  [!?bright-yellow]='657b83'
+		[!?blue]='268bd2'    [!?bright-blue]='839496'
+		[!?magenta]='d33682' [!?bright-magenta]='6c71c4'
+		[!?cyan]='2aa198'    [!?bright-cyan]='93a1a1'
+		[!?white]='eee8d5'   [!?bright-white]='fdf6e3'
+	)
+	solarized_dark+=(
+		[!?accent]="${solarized_dark[!?white]}"
+		[!?accentfg]="${solarized_dark[!?background]}"
+		[!?selected]="${solarized_dark[!?black]}"
+		[!?hover]="${solarized_dark[!?black]}"
+		[!?emacs-theme]='solarized-dark'
+		[!?focused]="${solarized_dark[!?white]}7f"
+		[!?unfocused]="${solarized_dark[!?background]}7f"
+		[!?alt-bg]="${solarized_dark[!?black]}"
+
+		[!?element-bg]="${solarized_dark[!?background]}"
+		[!?element-ac-bg]="${solarized_dark[!?background]}"
+		[!?element-fg]="${solarized_dark[!?foreground]}"
+		[!?inner]="${solarized_dark[!?bright-black]}"
+		[!?inactive-inner]="${solarized_dark[!?black]}"
+		[!?highlight]="${solarized_dark[!?white]}"
+		[!?border]="${solarized_dark[!?bright-blue]}"
+		[!?shadow]="${solarized_dark[!?bright-yellow]}"
+		[!?inactive-highlight]="${solarized_dark[!?bright-green]}"
+		[!?inactive-border]="$(darken "${solarized_dark[!?bright-black]}" 000000)"
+		[!?inactive-shadow]="$(darken "${solarized_dark[!?background]}" 181818)"
+		[!?comment]="${solarized_dark[!?bright-green]}"
+
+	)
+	
+	declare -A solarized_light
+	solarized_light=(
+		[!?background]='fdf6e3'
+		[!?foreground]='586e75'
+		[!?black]='073642'   [!?bright-black]='002b36'
+		[!?red]='dc322f'     [!?bright-red]='cb4b16'
+		[!?green]='859900'   [!?bright-green]='586e75'
+		[!?yellow]='b58900'  [!?bright-yellow]='657b83'
+		[!?blue]='268bd2'    [!?bright-blue]='839496'
+		[!?magenta]='d33682' [!?bright-magenta]='6c71c4'
+		[!?cyan]='2aa198'    [!?bright-cyan]='93a1a1'
+		[!?white]='eee8d5'   [!?bright-white]='fdf6e3'
+	)
+	solarized_light+=(
+		[!?accent]="${solarized_light[!?bright-black]}"
+		[!?accentfg]="${solarized_light[!?background]}"
+		[!?selected]="${solarized_light[!?white]}"
+		[!?hover]="${solarized_light[!?white]}"
+		[!?emacs-theme]='solarized-light'
+		[!?focused]="${solarized_light[!?white]}7f"
+		[!?unfocused]="${solarized_light[!?bright-black]}7f"
+		[!?alt-bg]="${solarized_dark[!?white]}"
+
+		[!?element-bg]="${solarized_light[!?background]}"
+		[!?element-ac-bg]="${solarized_light[!?white]}"
+		[!?element-fg]="${solarized_light[!?foreground]}"
+		
+		[!?inner]="${solarized_dark[!?bright-white]}"
+		[!?highlight]="$(brighten "${solarized_light[!?bright-cyan]}" 202020)"
+		[!?border]="${solarized_light[!?bright-yellow]}"
+		[!?shadow]="${solarized_light[!?bright-green]}"
+
+		[!?inactive-inner]="${solarized_dark[!?white]}"
+#		[!?inactive-highlight]="$(brighten "${solarized_light[!?bright-cyan]}" 202020)"
+		[!?inactive-highlight]="$(darken ${solarized_light[!?white]} 1f1f1f)"
+		[!?inactive-border]="${solarized_light[!?bright-cyan]}"
+		[!?inactive-shadow]="${solarized_light[!?bright-blue]}"
+		[!?comment]="${solarized_light[!?bright-green]}"
+
+	)
+	
+	case "$1" in
+		'light')insert-array solarized_light rules;;
+		*) insert-array solarized_dark rules;;
+	esac
+}

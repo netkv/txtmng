@@ -75,6 +75,14 @@ function to-rgb {
 	printf "rgba(%s, %s, %s, %s)\n" "$((16#$r))" "$((16#$g))" "$((16#$b))" "${2:-1}"
 }
 
+function include {
+	for file in "${include[@]}"; do
+		printf 'Include: \e[1;4m%s\e[0m\n' "${HOME}/.txtmng.d/include/${file}"
+		test -f "${HOME}/.txtmng.d/include/${file}" || exit 1
+		source "${HOME}/.txtmng.d/include/${file}"
+	done
+}
+
 ## prepare enviroment for sourcing config
 IFS=
 
@@ -92,7 +100,7 @@ else
 fi
 printf '\e[1;4mUsing file:\e[0m \e[1m%s\e[m\n' "${rulefile}"
 
-declare -a files
+declare -a files include
 declare -A rules insert templates config
 
 ## source it
@@ -108,7 +116,7 @@ declare -A esc=()
 ## escaping rules
 printf '\e[1mEscaping rules...\e[0m'
 for rule in "${!rules[@]}"; do
-	esc+=(["${rule}"]="$(printf '%s' "${rules[${rule}]}" | sed 's/[\/&]/\\&/g')")
+	esc+=(["${rule}"]="$(printf '%s' "${rules[${rule}]}" | sed ':a;N;$!ba;s/\n/__PLACEHOLDER__/g' | sed 's/[\/&\\]/\\&/g' | sed 's/__PLACEHOLDER__/\\n/g')")
 done
 printf '\e[1m Done!\e[0m\n'
 

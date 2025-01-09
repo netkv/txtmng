@@ -6,6 +6,55 @@ txtmng takes `file`, checks if `file.template` exists, does sed replace operatio
 
 The main benefit of txtmng is ability to configure equivalent stuff (like colors) in different programs in same place. Making for example changing themes much easier.
 
+### Paths
+
+#### config file
+
+First check ./.txtmng (allowing for local edits (source the main config for overlay like system))
+
+Then ${HOME}/.txtmng
+
+Then ${HOME}/.txtmng.d/rules
+
+main thing to look for is config associative array
+
+```bash
+config=(
+	[template-dir]="$HOME/.txtmng.d/templates" #specifies location for templates array
+)
+```
+
+then there's rules associative array, [word-to-replace-in-template]=with-what-it-should-be-replaced
+
+#### templates
+
+either define
+```bash
+files=(
+   	path/relative/to/\$\{HOME\}/something.config
+)
+```
+
+and it'll use
+`path/relative/to/\$\{HOME\}/something.config.template`
+
+as a template and 
+
+`path/relative/to/\$\{HOME\}/something.config`
+
+as a target
+
+OR
+
+```bash
+templates=(
+	[weird-thing.config]="${HOME}/PATH/to/A/thing.config"
+)
+```
+and it'll use `~/.txtmng.d/templates/weird-thing.config` as a template and
+
+`"${HOME}/PATH/to/A/thing.config"` as a target.
+
 ### Example
 
 Terminal colors

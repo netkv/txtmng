@@ -8,7 +8,6 @@ function insert-array {
 		target["${idx}"]="${source[${idx}]}"
 	}
 }
-
 function insert {
 	read -r -d '' "insert[${1}]"
 }
@@ -83,6 +82,27 @@ function include {
 	done
 }
 
+function print-rules {
+	for idx in "${!rules[@]}"; do
+		printf '\e[1m%*s\e[0m \e[33m%s\e[0m\n' -40 "$idx" "${rules["${idx}"]}"
+	done
+	exit 0
+}
+
+
+function print-help {
+	printf '\e[1;4m%s\e[0m\n' "TextManager template sytem thing"
+	printf '%*s\e[1m%*s\e[0m \e[33m$ %s\e[0m\n' 4 \|\\_ -30 "View help:" "txtmng --help (-h)"
+	printf '%*s\e[1m%*s\e[0m \e[33m$ %s\e[0m\n' 4 \|\\_ -30 "View list of current rules:" "txtmng --list (-l)"
+	printf '%*s\e[1m%*s\e[0m \e[33m$ %s\e[0m\n' 4 \\_ -30 "Apply current rules:" "txtmng"
+	exit 0
+}
+
+case "$1" in
+	'--list'|'-list'|'-l') mode=list; shift;;
+	'--help'|'-help'|'-h') print-help;;
+esac
+
 ## prepare enviroment for sourcing config
 IFS=
 
@@ -105,6 +125,11 @@ declare -A rules insert templates config
 
 ## source it
 source "${rulefile}"
+
+case "$mode" in
+	'list') print-rules;;
+esac
+
 
 ## integrated templates
 for file in "${!insert[@]}"; do
@@ -136,7 +161,7 @@ for file in "${files[@]}"; do
 		exit 1 # if file doesn't exist, something is very wrong and data could be harmed
 	fi
 	
-	printf 'Edit: \e[4m%s\e[0m \e[2m-->\e[0m \e[1;4m%s\e[0m\n' "${template_source}" "${file}"
+	printf 'Edit: \e[4m%s\e[0m \e[2m→\e[0m \e[1;4m%s\e[0m\n' "${template_source}" "${file}"
 
 	expr=''
 	for rule in "${!esc[@]}"; do
@@ -152,7 +177,7 @@ printf "\e[1;4mTemplate source:\e[0m \e[1m%s\e[0m\n" "${config[template-dir]}"
 for file in "${!templates[@]}"; do
 	# if file doesn't exist, something is very wrong and data could be harmed
 	test -f "${config[template-dir]}/${file}" || exit 25
-	printf "Template: \e[0;4m%s\e[0m \e[2m-->\e[0m \e[1;4m%s\e[0m\n" "${file}" "${templates[${file}]}"
+	printf "Template: \e[0;4m%s\e[0m \e[2m→\e[0m \e[1;4m%s\e[0m\n" "${file}" "${templates[${file}]}"
 
 	expr=''
 	for rule in "${!esc[@]}"; do
